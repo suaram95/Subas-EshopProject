@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/css/responsive.css">
     <!-- User style -->
     <link rel="stylesheet" href="/css/custom.css">
-    
+
     <!-- Style customizer (Remove these two lines please) -->
     <link rel="stylesheet" href="/css/style-customizer.css">
     <link href="#" data-style="styles" rel="stylesheet">
@@ -40,7 +40,7 @@
 <body>
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->  
+    <![endif]-->
 
     <!-- Body main wrapper start -->
     <div class="wrapper">
@@ -48,7 +48,7 @@
         <!-- START HEADER AREA -->
         <header th:insert="/fragments/header.html"></header>
         <!-- END HEADER AREA -->
-        
+
         <!-- START MOBILE MENU AREA -->
         <div class="mobile-menu-area d-block d-lg-none section">
             <div class="container">
@@ -216,10 +216,10 @@
                         <div class="col-lg-6">
                             <div class="registered-customers">
                                 <h6 class="widget-title border-left mb-50">REGISTERED CUSTOMERS</h6>
-                                <form action="#">
+                                <form action="/perform_login" method="post">
                                     <div class="login-account p-30 box-shadow">
                                         <p>If you have an account with us, Please log in.</p>
-                                        <input type="text" name="name" placeholder="Email Address">
+                                        <input type="text" name="email" placeholder="Email Address">
                                         <input type="password" name="password" placeholder="Password">
                                         <button class="submit-btn-1 btn-hover-1" type="submit">login</button>
                                     </div>
@@ -229,23 +229,37 @@
                         <!-- new-customers -->
                         <div class="col-lg-6">
                             <div class="new-customers">
-                                <form action="/register" method="post">
+                                <form action="/register" method="post" th:object="${user}">
                                     <h6 class="widget-title border-left mb-50">NEW CUSTOMERS</h6>
                                     <div class="login-account p-30 box-shadow">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <input type="text" name="firstName"  placeholder="First Name">
+<!--                                                <label for="firstName">First Name</label>-->
+                                                <span style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:class="error"></span>
+                                                <input id="firstName" type="text" name="firstName"  placeholder="First Name">
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" name="lastName"  placeholder="last Name">
+<!--                                                <label for="lastName">Last Name</label>-->
+                                                <span style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:class="error"></span>
+                                                <input id="lastName" type="text" name="lastName"  placeholder="last Name">
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="text" name="phone"  placeholder="Phone here...">
                                             </div>
                                         </div>
-                                        <input type="text"  name="email" placeholder="Email address here...">
-                                        <input type="password" name="password" placeholder="Password">
-                                        <input type="password" name="confirmPassword" placeholder="Confirm Password">
+<!--                                        <label for="email">Email</label>-->
+                                        <span style="color: red" th:text="${msg}" th:if="${msg!=null}"></span>
+                                        <span style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:class="error"></span>
+                                        <input id="email"  type="text"  name="email" placeholder="Email address here...">
+
+<!--                                        <label for="password">Password</label>-->
+                                        <span style="color: red"  th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:class="error"></span>
+                                        <input id="password" type="password" name="password" placeholder="Password">
+
+<!--                                        <label for="confirmPassword">Confirm Password</label>-->
+                                        <span style="color: red" th:text="${passMatchMsg}" th:if="${passMatchMsg!=null}"></span>
+                                        <span style="color: red" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" th:class="error"></span>
+                                        <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirm Password">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button class="submit-btn-1 mt-20 btn-hover-1" type="submit" value="register">Register</button>
@@ -261,7 +275,7 @@
                     </div>
                 </div>
             </div>
-            <!-- LOGIN SECTION END -->             
+            <!-- LOGIN SECTION END -->
 
         </div>
         <!-- End page content -->

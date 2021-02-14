@@ -1,28 +1,33 @@
 package com.example.subaseshopproject.dto;
 
 import com.example.subaseshopproject.model.Role;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class UserRequestDto {
 
     private long id;
-    @NotBlank
+    @NotBlank(message = "Field is required")
     private String firstName;
-    @NotBlank
+    @NotBlank(message = "Field is required")
     private String lastName;
     private String phone;
-    @Email
+    @Email(message = "Email was not valid")
     private String email;
-    @NotBlank
+    @Size(min = 7, message = "Field is required")
     private String password;
-    @NotBlank
+    @Size(min = 7, message = "Field is required")
     private String confirmPassword;
     private Role role=Role.USER;
 

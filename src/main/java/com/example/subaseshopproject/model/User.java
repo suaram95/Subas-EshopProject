@@ -28,6 +28,10 @@ public class User {
     private String email;
     @Column
     private String password;
+    @Column
+    private String token;
+    @Column
+    private boolean active;
     @Enumerated(value = EnumType.STRING)
     private Role role;
 

@@ -231,6 +231,9 @@
                             <div class="new-customers">
                                 <form action="/register" method="post" th:object="${user}">
                                     <h6 class="widget-title border-left mb-50">NEW CUSTOMERS</h6>
+                                    <span style="color: #1AA162" th:text="${activateMsg}" th:if="${activateMsg!=null}"></span>
+                                    <span style="color: #1AA162" th:text="${successRegMsg}" th:if="${successRegMsg!=null}"></span>
+                                    <span style="color: darkred" th:text="${activateFailMsg}" th:if="${activateFailMsg!=null}"></span>
                                     <div class="login-account p-30 box-shadow">
                                         <div class="row">
                                             <div class="col-sm-6">

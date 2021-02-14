@@ -23,9 +23,15 @@ public class MainController {
     public String loginPage(ModelMap map,
                             @RequestParam(value = "msg", required = false) String msg,
                             @RequestParam(value = "passMatchMsg", required = false) String passMatchMsg,
+                            @RequestParam(value = "activateMsg", required = false) String activateMsg,
+                            @RequestParam(value = "activateFailMsg", required = false) String activateFailMsg,
+                            @RequestParam(value = "successRegMsg", required = false) String successRegMsg,
                             @ModelAttribute("user") UserRequestDto userRequestDto){
         map.addAttribute("msg", msg);
         map.addAttribute("passMatchMsg", passMatchMsg);
+        map.addAttribute("activateMsg", activateMsg);
+        map.addAttribute("activateFailMsg", activateFailMsg);
+        map.addAttribute("successRegMsg", successRegMsg);
         return "login";
     }
 

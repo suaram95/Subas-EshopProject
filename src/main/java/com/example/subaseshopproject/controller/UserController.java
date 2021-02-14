@@ -2,17 +2,23 @@ package com.example.subaseshopproject.controller;
 
 import com.example.subaseshopproject.dto.UserRequestDto;
 import com.example.subaseshopproject.model.User;
+import com.example.subaseshopproject.service.EmailService;
 import com.example.subaseshopproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -23,8 +29,11 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("user") UserRequestDto userRequestDto, BindingResult br, ModelMap map) {
+    public String registerUser(@Valid @ModelAttribute("user") UserRequestDto userRequestDto, BindingResult br, ModelMap map, Locale locale) throws MessagingException {
         if (br.hasErrors()) {
             map.addAttribute("users", userService.findAll());
             return "login";
@@ -45,9 +54,27 @@ public class UserController {
                 .email(userRequestDto.getEmail())
                 .password(passwordEncoder.encode(userRequestDto.getPassword()))
                 .role(userRequestDto.getRole())
+                .active(false)
+                .token(UUID.randomUUID().toString())
                 .build();
         userService.save(user);
-        return "redirect:/";
+        String link = "http://localhost:8080/activate?email=" + userRequestDto.getEmail() + "&token=" + user.getToken();
+        emailService.sendHtmlEmail(user.getEmail(), "Activate Account", user, link, "email/userWelcomeEmail.html",locale);
+        String successRegMsg="You have successfully registered! Please check your email for account activation";
+        return "redirect:/loginPage?successRegMsg="+successRegMsg;
+    }
 
+    @GetMapping("/activate")
+    public String activate(@RequestParam("email") String email,
+                           @RequestParam("token") String token ){
+        Optional<User> optionalUser = userService.findByUserName(email);
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            user.setActive(true);
+            user.setToken("");
+            userService.save(user);
+            return "redirect:/loginPage?activateMsg=Account was activated please login!";
+        }
+        return "redirect:/loginPage?activateFailMsg=Something went wrong";
     }
 }

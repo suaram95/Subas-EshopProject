@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 d-none d-md-block">
                     <div class="call-us">
-                        <p class="mb-0 roboto">0123456789</p>
+                        <p class="mb-0 roboto" th:text="'Welcome!' +' '+ ${currentUser.getFirstName()+' '+currentUser.getLastName()}" th:if="${currentUser!=null}"></p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -56,9 +56,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/loginPage">
+                                <a href="/loginPage" th:if="${currentUser==null}" >
                                     <i class="zmdi zmdi-lock"></i>
                                     Login/Register
+                                </a>
+                                <a href="/logout" th:if="${currentUser!=null}" >
+                                    <i class="zmdi zmdi-lock"></i>
+                                    Logout
                                 </a>
                             </li>
                         </ul>

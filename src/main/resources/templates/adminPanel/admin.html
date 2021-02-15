@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Home</title>
+
+</head>
+<body>
+<div>
+    <p th:text="${msg}" th:if="${msg!=null}"></p>
+    <b><i>Add Product</i></b>
+    <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+        Name: <input type="text" name="name"> <br>
+        Brand: <select name="brand">
+        <option value="SAMSUNG">Samsung</option>
+        <option value="APPLE">Apple</option>
+        <option value="HTC">HTC</option>
+        <option value="LG">LG</option>
+        <option value="SONY">Sony</option>
+    </select> <br>
+        OS: <select name="operatingSystem">
+        <option value="ANDROID">Android</option>
+        <option value="IOS">IOS</option>
+        <option value="SYMBIAN">Symbian</option>
+        <option value="WINDOWS_PHONE">Windows Phone</option>
+    </select> <br>
+        Price: <input type="number" name="price"> <br>
+        Color: <select name="color">
+        <option value="BLACK">Black</option>
+        <option value="LIGHT_SALMON">Light Salmon</option>
+        <option value="DARK_SALMON">Dark Salmon</option>
+        <option value="TOMATO">Tomato</option>
+        <option value="DEEP_SKY_BLUE">Deep Sky Blue</option>
+        <option value="ATLANTIS">Atlantis</option>
+    </select> <br>
+        Category: <select name="category">
+        <option th:each="category:${categories}" th:value="${category.id}"
+                th:text="${category.name}"></option>
+    </select> <br>
+        Picture: <input type="file" name="image" value="Upload"> <br>
+        <input type="submit" value="Add">
+        <input type="reset" value="Clear">
+    </form>
+</div>
+</body>
+</html>

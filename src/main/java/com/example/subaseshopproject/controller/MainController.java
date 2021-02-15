@@ -42,13 +42,9 @@ public class MainController {
         }
         User user = currentUser.getUser();
         if (user.getRole()== Role.ADMIN){
-            return "admin";
+            return "redirect:/admin";
         } else {
             return "redirect:/";
         }
     }
-
-
-
-
 }

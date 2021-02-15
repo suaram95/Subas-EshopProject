@@ -2,9 +2,11 @@ package com.example.subaseshopproject.controller;
 
 import com.example.subaseshopproject.dto.UserRequestDto;
 import com.example.subaseshopproject.model.User;
+import com.example.subaseshopproject.security.CurrentUser;
 import com.example.subaseshopproject.service.EmailService;
 import com.example.subaseshopproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -58,17 +60,17 @@ public class UserController {
                 .token(UUID.randomUUID().toString())
                 .build();
         userService.save(user);
-        String link = "http://localhost:8080/activate?email=" + userRequestDto.getEmail() + "&token=" + user.getToken();
-        emailService.sendHtmlEmail(user.getEmail(), "Activate Account", user, link, "email/userWelcomeEmail.html",locale);
-        String successRegMsg="You have successfully registered! Please check your email for account activation";
-        return "redirect:/loginPage?successRegMsg="+successRegMsg;
+        String link = "http://localhost:8080/user/activate?email=" + userRequestDto.getEmail() + "&token=" + user.getToken();
+        emailService.sendHtmlEmail(user.getEmail(), "Activate Account", user, link, "email/userWelcomeEmail.html", locale);
+        String successRegMsg = "You have successfully registered! Please check your email for account activation";
+        return "redirect:/loginPage?successRegMsg=" + successRegMsg;
     }
 
-    @GetMapping("/activate")
+    @GetMapping("/user/activate")
     public String activate(@RequestParam("email") String email,
-                           @RequestParam("token") String token ){
+                           @RequestParam("token") String token) {
         Optional<User> optionalUser = userService.findByUserName(email);
-        if (optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setActive(true);
             user.setToken("");
@@ -77,4 +79,49 @@ public class UserController {
         }
         return "redirect:/loginPage?activateFailMsg=Something went wrong";
     }
+
+    @GetMapping("/user/account")
+    public String userAccount(ModelMap map, @ModelAttribute("updateUser") User user,
+                              @AuthenticationPrincipal CurrentUser currentUser,
+                              @RequestParam(value = "passMatchMsg", required = false) String passMatchMsg) {
+        map.addAttribute("passMatchMsg", passMatchMsg);
+        map.addAttribute("currentUser", currentUser.getUser());
+        return "my-account";
+    }
+
+    @PostMapping("/user/update")
+    public String updateUser(@Valid @ModelAttribute("updateUser") UserRequestDto userRequestDto, BindingResult br, ModelMap map,
+                             @RequestParam("id") long id,
+                             @RequestParam("firstName") String firstName,
+                             @RequestParam("lastName") String lastName,
+                             @RequestParam("phone") String phone,
+                             @RequestParam("email") String email,
+                             @RequestParam("password") String password,
+                             @RequestParam("additionalInfo") String additionalInfo) {
+        if (br.hasErrors()) {
+            map.addAttribute("users", userService.findAll());
+            return "my-account";
+        }
+        if (!userRequestDto.getPassword().matches(userRequestDto.getConfirmPassword())) {
+            String passMatchMsg = "Password and confirm password doesn't match";
+            return "redirect:/user/account?passMatchMsg=" + passMatchMsg;
+        }
+        Optional<User> optionalUser = userService.findUserById(id);
+        if (!optionalUser.isPresent()){
+            return "redirect:/";
+        }
+        User user = optionalUser.get();
+        if (!user.isActive()){
+            return "redirect:/";
+        }
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setAdditionalInfo(additionalInfo);
+        userService.save(user);
+
+        return "redirect:/user/account";    }
+
 }

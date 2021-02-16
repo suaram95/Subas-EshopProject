@@ -7,6 +7,15 @@
 </head>
 <body>
 <div>
+    <b><i>Add Brand</i></b>
+    <form action="/admin/addBrand" method="post" enctype="multipart/form-data">
+        Name: <input type="text" name="name"> <br>
+        Picture: <input type="file" name="brandImage" value="Upload"> <br>
+        <input type="submit" value="Add">
+    </form>
+</div>
+<br>
+<div>
     <p th:text="${msg}" th:if="${msg!=null}"></p>
     <b><i>Add Product</i></b>
     <form action="/admin/addProduct" method="post" enctype="multipart/form-data">

@@ -3,19 +3,40 @@ package com.example.subaseshopproject.controller;
 import com.example.subaseshopproject.dto.UserRequestDto;
 import com.example.subaseshopproject.model.Role;
 import com.example.subaseshopproject.model.User;
+import com.example.subaseshopproject.repository.ProductRepository;
 import com.example.subaseshopproject.security.CurrentUser;
+import com.example.subaseshopproject.service.BrandService;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Controller
 public class MainController {
 
+    @Autowired
+    private BrandService brandService;
+
+    @Value("${file.upload.dir}")
+    private String uploadDir;
+
+
     @GetMapping("/")
-    public String mainPage(){
+    public String mainPage(ModelMap map){
+        map.addAttribute("brands", brandService.findAll());
         return "index";
     }
 
@@ -46,5 +67,12 @@ public class MainController {
         } else {
             return "redirect:/";
         }
+    }
+
+    @GetMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody
+    byte[] getImage(@RequestParam("name") String imageName) throws IOException {
+        InputStream in = new FileInputStream(uploadDir + File.separator + imageName);
+        return IOUtils.toByteArray(in);
     }
 }

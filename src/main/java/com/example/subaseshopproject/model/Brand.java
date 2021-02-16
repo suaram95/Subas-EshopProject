@@ -1,10 +1,27 @@
 package com.example.subaseshopproject.model;
 
-public enum Brand {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    SAMSUNG,
-    APPLE,
-    HTC,
-    LG,
-    SONY
+import javax.persistence.*;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "brand")
+public class Brand {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column
+    private String name;
+    @Column
+    private String picUrl;
+
+
 }

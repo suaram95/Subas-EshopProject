@@ -1,9 +1,6 @@
 package com.example.subaseshopproject.dto;
 
-import com.example.subaseshopproject.model.Brand;
-import com.example.subaseshopproject.model.Category;
-import com.example.subaseshopproject.model.Color;
-import com.example.subaseshopproject.model.OperatingSystem;
+import com.example.subaseshopproject.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +18,7 @@ public class ProductRequestDto {
     private OperatingSystem operatingSystem;
     private double price;
     private Color color;
+    private ProductType productType=ProductType.NORMAL;
     private Category category;
 
 }

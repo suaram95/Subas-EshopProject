@@ -21,15 +21,16 @@ public class Product {
     private long id;
     @Column
     private String name;
-    @Enumerated(value = EnumType.STRING)
+    @ManyToOne
     private Brand brand;
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "operating_system")
     private OperatingSystem operatingSystem;
     @Column
     private double price;
     @Enumerated(value = EnumType.STRING)
     private Color color;
+    @Enumerated(value = EnumType.STRING)
+    private ProductType productType;
     @Column
     private String picUrl;
     @ManyToOne

@@ -6,18 +6,20 @@ import com.example.subaseshopproject.security.CurrentUser;
 import com.example.subaseshopproject.service.EmailService;
 import com.example.subaseshopproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
@@ -122,6 +124,8 @@ public class UserController {
         user.setAdditionalInfo(additionalInfo);
         userService.save(user);
 
-        return "redirect:/user/account";    }
+        return "redirect:/user/account";
+    }
+
 
 }

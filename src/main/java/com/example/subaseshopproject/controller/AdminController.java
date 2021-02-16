@@ -1,7 +1,9 @@
 package com.example.subaseshopproject.controller;
 
 import com.example.subaseshopproject.dto.ProductRequestDto;
+import com.example.subaseshopproject.model.Brand;
 import com.example.subaseshopproject.model.Product;
+import com.example.subaseshopproject.service.BrandService;
 import com.example.subaseshopproject.service.CategoryService;
 import com.example.subaseshopproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private BrandService brandService;
+
     @Value("${file.upload.dir}")
     private String uploadDir;
 
@@ -34,6 +39,17 @@ public class AdminController {
         map.addAttribute("categories",categoryService.findAll());
         map.addAttribute("msg", msg);
         return "/adminPanel/admin";
+    }
+
+    @PostMapping("/admin/addBrand")
+    public String addBrand(@ModelAttribute("brand") Brand brand,
+                           @RequestParam("brandImage") MultipartFile multipartFile) throws IOException {
+        String brandPic = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+        File image = new File(uploadDir, brandPic);
+        multipartFile.transferTo(image);
+        brand.setPicUrl(brandPic);
+        brandService.save(brand);
+        return "redirect:/admin?msg=Brand was added!";
     }
 
     @PostMapping("/admin/addProduct")
@@ -50,6 +66,7 @@ public class AdminController {
                 .operatingSystem(productRequestDto.getOperatingSystem())
                 .price(productRequestDto.getPrice())
                 .color(productRequestDto.getColor())
+                .productType(productRequestDto.getProductType())
                 .picUrl(productPic)
                 .category(productRequestDto.getCategory())
                 .build();

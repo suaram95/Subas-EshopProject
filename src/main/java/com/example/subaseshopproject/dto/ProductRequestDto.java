@@ -19,6 +19,7 @@ public class ProductRequestDto {
     private double price;
     private Color color;
     private ProductType productType=ProductType.NORMAL;
+    private ProductListType productListType=ProductListType.NEW_ARRIVAL;
     private Category category;
 
 }

@@ -1,11 +1,14 @@
 package com.example.subaseshopproject.controller;
 
 import com.example.subaseshopproject.dto.UserRequestDto;
+import com.example.subaseshopproject.model.ProductListType;
+import com.example.subaseshopproject.model.ProductType;
 import com.example.subaseshopproject.model.Role;
 import com.example.subaseshopproject.model.User;
 import com.example.subaseshopproject.repository.ProductRepository;
 import com.example.subaseshopproject.security.CurrentUser;
 import com.example.subaseshopproject.service.BrandService;
+import com.example.subaseshopproject.service.ProductService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +33,9 @@ public class MainController {
     @Autowired
     private BrandService brandService;
 
+    @Autowired
+    private ProductService productService;
+
     @Value("${file.upload.dir}")
     private String uploadDir;
 
@@ -37,6 +43,17 @@ public class MainController {
     @GetMapping("/")
     public String mainPage(ModelMap map){
         map.addAttribute("brands", brandService.findAll());
+
+        map.addAttribute("featuredList", productService.findAllByProductType(ProductType.FEATURED));
+
+        map.addAttribute("popularList",
+                productService.findAllByProductListType(ProductListType.POPULAR));
+        map.addAttribute("newArrivalList",
+                productService.findAllByProductListType(ProductListType.NEW_ARRIVAL));
+        map.addAttribute("bestSellerList",
+                productService.findAllByProductListType(ProductListType.BEST_SELLER));
+        map.addAttribute("specialOfferList",
+                productService.findAllByProductListType(ProductListType.SPECIAL_OFFER));
         return "index";
     }
 

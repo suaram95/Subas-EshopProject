@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,6 +30,8 @@ public class Product {
     private Color color;
     @Enumerated(value = EnumType.STRING)
     private ProductType productType;
+    @Enumerated(value = EnumType.STRING)
+    private ProductListType productListType;
     @Column
     private String picUrl;
     @ManyToOne

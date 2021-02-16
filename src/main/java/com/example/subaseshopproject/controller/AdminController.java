@@ -1,8 +1,11 @@
 package com.example.subaseshopproject.controller;
 
+import com.example.subaseshopproject.dto.BlogRequestDto;
 import com.example.subaseshopproject.dto.ProductRequestDto;
+import com.example.subaseshopproject.model.Blog;
 import com.example.subaseshopproject.model.Brand;
 import com.example.subaseshopproject.model.Product;
+import com.example.subaseshopproject.service.BlogService;
 import com.example.subaseshopproject.service.BrandService;
 import com.example.subaseshopproject.service.CategoryService;
 import com.example.subaseshopproject.service.ProductService;
@@ -10,11 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 public class AdminController {
@@ -27,6 +34,9 @@ public class AdminController {
 
     @Autowired
     private BrandService brandService;
+
+    @Autowired
+    private BlogService blogService;
 
     @Value("${file.upload.dir}")
     private String uploadDir;
@@ -71,5 +81,29 @@ public class AdminController {
         productService.save(product);
         String msg="Product was successfully added!";
         return "redirect:/admin?msg="+msg;
+    }
+
+    @PostMapping("/admin/addBlog")
+    public String addBlog(@ModelAttribute("blog") BlogRequestDto blogRequestDto,
+                          @RequestParam("blogImage") MultipartFile multipartFile) throws IOException {
+        Optional<Blog> blogByName = blogService.findBlogByName(blogRequestDto.getName());
+        if (blogByName.isPresent()){
+            return "redirect:/admin?msg=Blog with name "+blogRequestDto.getName()+" already exists!";
+        }
+
+        String blogPic = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+        File image = new File(uploadDir, blogPic);
+        multipartFile.transferTo(image);
+
+        Blog blog=Blog.builder()
+                .name(blogRequestDto.getName())
+                .text(blogRequestDto.getText())
+                .createdDate(blogRequestDto.getCreatedDate())
+                .picUrl(blogPic)
+                .category(blogRequestDto.getCategory())
+                .comment(blogRequestDto.getComment())
+                .build();
+        blogService.save(blog);
+        return "redirect:/admin?msg=Blog was added!";
     }
 }

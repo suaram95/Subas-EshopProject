@@ -7,6 +7,7 @@ import com.example.subaseshopproject.model.Role;
 import com.example.subaseshopproject.model.User;
 import com.example.subaseshopproject.repository.ProductRepository;
 import com.example.subaseshopproject.security.CurrentUser;
+import com.example.subaseshopproject.service.BlogService;
 import com.example.subaseshopproject.service.BrandService;
 import com.example.subaseshopproject.service.ProductService;
 import org.apache.commons.io.IOUtils;
@@ -36,6 +37,9 @@ public class MainController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private BlogService blogService;
+
     @Value("${file.upload.dir}")
     private String uploadDir;
 
@@ -54,6 +58,8 @@ public class MainController {
                 productService.findAllByProductListType(ProductListType.BEST_SELLER));
         map.addAttribute("specialOfferList",
                 productService.findAllByProductListType(ProductListType.SPECIAL_OFFER));
+
+        map.addAttribute("latestThreeList", blogService.findTop3ByOrderByIdDesc());
         return "index";
     }
 

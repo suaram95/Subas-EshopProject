@@ -1052,8 +1052,8 @@ hr {
 .meta-month {
   font-size: 14px;
   font-weight: 500;
-  line-height: 12px;
-  padding-top: 5px;
+  line-height: 8px;
+
 }
 .blog-like-share li + li {
   margin-left: 10px;

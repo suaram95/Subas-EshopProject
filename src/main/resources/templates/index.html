@@ -640,10 +640,11 @@
                                 <div class="blog-item">
                                     <img th:src="@{/image(name=${latestThree.picUrl})}" alt="">
                                     <div class="blog-desc">
-                                        <h5 class="blog-title"><a href="single-blog.html" th:text="${latestThree.name}"></a></h5>
+                                        <h5 class="blog-title"><a th:href="@{/singleBlog(id=${latestThree.id})}"
+                                                                  th:text="${latestThree.name}"></a></h5>
                                         <p th:text="${latestThree.text}"></p>
                                         <div class="read-more">
-                                            <a href="single-blog.html">Read more</a>
+                                            <a th:href="@{/singleBlog(id=${latestThree.id})}">Read more</a>
                                         </div>
                                     </div>
                                 </div>

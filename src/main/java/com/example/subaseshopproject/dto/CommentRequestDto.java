@@ -16,6 +16,6 @@ public class CommentRequestDto {
 
     private long id;
     private String commentText;
-    private Date createdDate;
+    private Date createdDate=new Date();
     private User user;
 }

@@ -5,12 +5,8 @@ import com.example.subaseshopproject.dto.ProductRequestDto;
 import com.example.subaseshopproject.model.Blog;
 import com.example.subaseshopproject.model.Brand;
 import com.example.subaseshopproject.model.Product;
-import com.example.subaseshopproject.service.BlogService;
-import com.example.subaseshopproject.service.BrandService;
-import com.example.subaseshopproject.service.CategoryService;
-import com.example.subaseshopproject.service.ProductService;
+import com.example.subaseshopproject.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminController {
 
+    private final BlogCategoryService blogCategoryService;
     private final CategoryService categoryService;
     private final ProductService productService;
     private final BrandService brandService;
@@ -38,7 +35,8 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String adminPage(ModelMap map, @RequestParam(value = "msg", required = false) String msg) {
-        map.addAttribute("categories", categoryService.findAll());
+        map.addAttribute("blogCategories", blogCategoryService.findAll());
+        map.addAttribute("productCategories", categoryService.findAll());
         map.addAttribute("brands", brandService.findAll());
         map.addAttribute("msg", msg);
         return "/adminPanel/admin";

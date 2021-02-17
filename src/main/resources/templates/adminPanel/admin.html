@@ -40,7 +40,7 @@
         <option value="ATLANTIS">Atlantis</option>
     </select> <br>
         Category: <select name="category">
-        <option th:each="category:${categories}" th:value="${category.id}"
+        <option th:each="category:${productCategories}" th:value="${category.id}"
                 th:text="${category.name}"></option>
     </select> <br>
         Description: <textarea name="description"></textarea> <br>
@@ -56,7 +56,7 @@
         Name: <input type="text" name="name"> <br>
         Text: <textarea name="text"></textarea> <br>
         Category: <select name="category">
-        <option th:each="category:${categories}" th:value="${category.id}"
+        <option th:each="category:${blogCategories}" th:value="${category.id}"
                 th:text="${category.name}"></option>
     </select> <br>
         Picture: <input type="file" name="blogImage" value="Upload"> <br>

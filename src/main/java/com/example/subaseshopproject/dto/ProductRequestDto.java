@@ -20,6 +20,7 @@ public class ProductRequestDto {
     private Color color;
     private ProductType productType=ProductType.NORMAL;
     private ProductListType productListType=ProductListType.NEW_ARRIVAL;
+    private String description;
     private Category category;
 
 }

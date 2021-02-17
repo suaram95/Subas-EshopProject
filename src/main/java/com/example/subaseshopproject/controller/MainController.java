@@ -10,6 +10,7 @@ import com.example.subaseshopproject.security.CurrentUser;
 import com.example.subaseshopproject.service.BlogService;
 import com.example.subaseshopproject.service.BrandService;
 import com.example.subaseshopproject.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,16 +30,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
 
-    @Autowired
-    private BrandService brandService;
-
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private BlogService blogService;
+    private final BrandService brandService;
+    private final ProductService productService;
+    private final BlogService blogService;
 
     @Value("${file.upload.dir}")
     private String uploadDir;

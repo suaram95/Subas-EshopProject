@@ -5,36 +5,30 @@ import com.example.subaseshopproject.model.User;
 import com.example.subaseshopproject.security.CurrentUser;
 import com.example.subaseshopproject.service.EmailService;
 import com.example.subaseshopproject.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private EmailService emailService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") UserRequestDto userRequestDto, BindingResult br, ModelMap map, Locale locale) throws MessagingException {

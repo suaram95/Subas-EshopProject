@@ -29,6 +29,6 @@ public class Blog {
     private String picUrl;
     @ManyToOne
     private Category category;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Comment comment;
 }

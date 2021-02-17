@@ -21,11 +21,8 @@
     <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
         Name: <input type="text" name="name"> <br>
         Brand: <select name="brand">
-        <option value="SAMSUNG">Samsung</option>
-        <option value="APPLE">Apple</option>
-        <option value="HTC">HTC</option>
-        <option value="LG">LG</option>
-        <option value="SONY">Sony</option>
+        <option th:each="brand:${brands}" th:value="${brand.id}"
+                th:text="${brand.name}"></option>
     </select> <br>
         OS: <select name="operatingSystem">
         <option value="ANDROID">Android</option>
@@ -46,6 +43,7 @@
         <option th:each="category:${categories}" th:value="${category.id}"
                 th:text="${category.name}"></option>
     </select> <br>
+        Description: <textarea name="description"></textarea> <br>
         Picture: <input type="file" name="image" value="Upload"> <br>
         <input type="submit" value="Add">
         <input type="reset" value="Clear">

@@ -33,6 +33,8 @@ public class Product {
     @Enumerated(value = EnumType.STRING)
     private ProductListType productListType;
     @Column
+    private String description;
+    @Column
     private String picUrl;
     @ManyToOne
     private Category category;

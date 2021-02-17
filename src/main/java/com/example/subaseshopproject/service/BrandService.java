@@ -2,16 +2,16 @@ package com.example.subaseshopproject.service;
 
 import com.example.subaseshopproject.model.Brand;
 import com.example.subaseshopproject.repository.BrandRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BrandService {
 
-    @Autowired
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
 
     public void save(Brand brand){
         brandRepository.save(brand);

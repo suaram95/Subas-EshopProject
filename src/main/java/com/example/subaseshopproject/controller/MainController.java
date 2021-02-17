@@ -8,6 +8,7 @@ import com.example.subaseshopproject.model.User;
 import com.example.subaseshopproject.security.CurrentUser;
 import com.example.subaseshopproject.service.BlogService;
 import com.example.subaseshopproject.service.BrandService;
+import com.example.subaseshopproject.service.EmailService;
 import com.example.subaseshopproject.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
@@ -16,10 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +31,7 @@ public class MainController {
     private final BrandService brandService;
     private final ProductService productService;
     private final BlogService blogService;
+    private final EmailService emailService;
 
     @Value("${file.upload.dir}")
     private String uploadDir;
@@ -84,6 +83,16 @@ public class MainController {
         } else {
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/about")
+    public String aboutPage(){
+        return "about";
+    }
+
+    @GetMapping("/contact")
+    public String contactPage(){
+        return "contact";
     }
 
     @GetMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)

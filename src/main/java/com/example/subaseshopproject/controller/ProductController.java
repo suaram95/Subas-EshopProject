@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -47,6 +48,13 @@ public class ProductController {
         map.addAttribute("opSystems", OperatingSystem.values());
         map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
         return "single-product";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("keyword") String keyword, ModelMap map){
+        List<Product> searchedProduct = productService.findAllByNameIgnoreCaseContaining(keyword);
+        Product product = searchedProduct.get(0);
+        return "redirect:/singleProduct?id="+product.getId();
     }
 
 

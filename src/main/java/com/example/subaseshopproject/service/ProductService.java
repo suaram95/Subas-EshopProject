@@ -1,13 +1,12 @@
 package com.example.subaseshopproject.service;
 
 
-import com.example.subaseshopproject.model.Blog;
+import com.example.subaseshopproject.model.Brand;
 import com.example.subaseshopproject.model.Product;
 import com.example.subaseshopproject.model.ProductListType;
 import com.example.subaseshopproject.model.ProductType;
 import com.example.subaseshopproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,5 +40,9 @@ public class ProductService {
 
     public Optional<Product> findById(long id){
         return productRepository.findById(id);
+    }
+
+    public List<Product> findAllByBrandNotLikeSingleProductName(String name, long id){
+        return productRepository.findAllByBrandNotLikeSingleProductName(name, id);
     }
 }

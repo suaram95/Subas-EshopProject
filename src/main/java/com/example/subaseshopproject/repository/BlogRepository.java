@@ -11,4 +11,6 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
     Optional<Blog> findBlogByName(String name);
 
     List<Blog> findTop3ByOrderByIdDesc();
+
+    List<Blog> findAllByNameIgnoreCaseContaining(String keyword);
 }

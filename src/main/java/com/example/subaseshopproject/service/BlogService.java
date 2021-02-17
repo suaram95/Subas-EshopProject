@@ -1,6 +1,7 @@
 package com.example.subaseshopproject.service;
 
 import com.example.subaseshopproject.model.Blog;
+import com.example.subaseshopproject.model.Product;
 import com.example.subaseshopproject.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,13 @@ public class BlogService {
 
     public Optional<Blog> findById(long id){
         return blogRepository.findById(id);
+    }
+
+    public List<Blog> findAll() {
+        return blogRepository.findAll();
+    }
+
+    public List<Blog> findAllByNameIgnoreCaseContaining(String name){
+        return blogRepository.findAllByNameIgnoreCaseContaining(name);
     }
 }

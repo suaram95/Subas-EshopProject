@@ -77,31 +77,19 @@ public class UserController {
     }
 
     @GetMapping("/user/account")
-    public String userAccount(ModelMap map, @ModelAttribute("updateUser") User user,
-                              @AuthenticationPrincipal CurrentUser currentUser,
-                              @RequestParam(value = "passMatchMsg", required = false) String passMatchMsg) {
-        map.addAttribute("passMatchMsg", passMatchMsg);
+    public String userAccount(@AuthenticationPrincipal CurrentUser currentUser,ModelMap map) {
         map.addAttribute("currentUser", currentUser.getUser());
         return "my-account";
     }
 
     @PostMapping("/user/update")
-    public String updateUser(@Valid @ModelAttribute("updateUser") UserRequestDto userRequestDto, BindingResult br, ModelMap map,
-                             @RequestParam("id") long id,
-                             @RequestParam("firstName") String firstName,
-                             @RequestParam("lastName") String lastName,
-                             @RequestParam("phone") String phone,
-                             @RequestParam("email") String email,
-                             @RequestParam("password") String password,
-                             @RequestParam("additionalInfo") String additionalInfo) {
+    public String updateUser(@Valid @ModelAttribute("user") UserRequestDto userRequestDto, BindingResult br, ModelMap map,
+                             @RequestParam("id") long id) {
         if (br.hasErrors()) {
             map.addAttribute("users", userService.findAll());
             return "my-account";
         }
-        if (!userRequestDto.getPassword().matches(userRequestDto.getConfirmPassword())) {
-            String passMatchMsg = "Password and confirm password doesn't match";
-            return "redirect:/user/account?passMatchMsg=" + passMatchMsg;
-        }
+
         Optional<User> optionalUser = userService.findUserById(id);
         if (!optionalUser.isPresent()){
             return "redirect:/";
@@ -110,14 +98,14 @@ public class UserController {
         if (!user.isActive()){
             return "redirect:/";
         }
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setPhone(phone);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setAdditionalInfo(additionalInfo);
+        user.setFirstName(userRequestDto.getFirstName());
+        user.setLastName(userRequestDto.getLastName());
+        user.setPhone(userRequestDto.getPhone());
+        user.setEmail(userRequestDto.getEmail());
+        if (!user.getPassword().equals(userRequestDto.getPassword())){
+            user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+        }
         userService.save(user);
-
         return "redirect:/user/account";
     }
 

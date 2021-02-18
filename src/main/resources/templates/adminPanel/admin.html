@@ -7,6 +7,7 @@
 </head>
 <body>
 <div>
+    <p th:text="${msg}" th:if="${msg!=null}"></p>
     <b><i>Add Brand</i></b>
     <form action="/admin/addBrand" method="post" enctype="multipart/form-data">
         Name: <input type="text" name="name"> <br>
@@ -16,7 +17,6 @@
 </div>
 <br>
 <div>
-    <p th:text="${msg}" th:if="${msg!=null}"></p>
     <b><i>Add Product</i></b>
     <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
         Name: <input type="text" name="name"> <br>
@@ -62,6 +62,51 @@
         Picture: <input type="file" name="blogImage" value="Upload"> <br>
         <input type="submit" value="Add">
     </form>
+</div>
+<br>
+<div>
+    <b><i>Add Team Member</i></b>
+    <form action="/admin/addTeamMember" method="post" enctype="multipart/form-data">
+        Name: <input type="text" name="name"> <br>
+        Surname: <input type="text" name="surname"> <br>
+        Bio: <input type="text" name="bio"> <br>
+        Type: <select name="memberType">
+        <option value="CHAIRMAN">Chairman</option>
+        <option value="SEO">Seo</option>
+        <option value="COORDINATOR">Coordinator</option>
+        <option value="DIRECTOR">Director</option>
+        <option value="CHIEF">Chief</option>
+    </select> <br>
+        Picture: <input type="file" name="image" value="Upload"> <br>
+        <input type="submit" value="Add">
+    </form>
+</div>
+<br>
+<div>
+    <b><i>Team Members</i></b>
+    <table border="1">
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Bio</td>
+            <td>Picture</td>
+            <td>Member Type</td>
+            <td>Action</td>
+        </tr>
+        <tr th:each="member:${teamMembers}">
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.name}"></td>
+            <td th:text="${member.surname}"></td>
+            <td th:text="${member.bio}"></td>
+            <td><img th:src="@{/image(name=${member.picUrl})}" style="width: 40px" alt=""></td>
+            <td th:text="${member.memberType.name()}"></td>
+            <td>
+                <a th:href="@{/admin/editMember(id=${member.id})}">Edit</a>
+                <a th:href="@{/admin/removeMember(id=${member.id})}">Delete</a>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

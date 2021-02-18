@@ -6,10 +6,7 @@ import com.example.subaseshopproject.model.ProductType;
 import com.example.subaseshopproject.model.Role;
 import com.example.subaseshopproject.model.User;
 import com.example.subaseshopproject.security.CurrentUser;
-import com.example.subaseshopproject.service.BlogService;
-import com.example.subaseshopproject.service.BrandService;
-import com.example.subaseshopproject.service.EmailService;
-import com.example.subaseshopproject.service.ProductService;
+import com.example.subaseshopproject.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +28,7 @@ public class MainController {
     private final BrandService brandService;
     private final ProductService productService;
     private final BlogService blogService;
-    private final EmailService emailService;
+    private final TeamMemberService teamMemberService;
 
     @Value("${file.upload.dir}")
     private String uploadDir;
@@ -86,7 +83,8 @@ public class MainController {
     }
 
     @GetMapping("/about")
-    public String aboutPage(){
+    public String aboutPage(ModelMap map){
+        map.addAttribute("teamMembers", teamMemberService.findAll());
         return "about";
     }
 

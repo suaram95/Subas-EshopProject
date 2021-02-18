@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Member</title>
+</head>
+<body>
+<form action="/admin/changePicture" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="memberId" th:value="${teamMember.id}">
+    <img th:src="@{/image(name=${teamMember.picUrl})}" alt="" style="width: 150px"> <br>
+    Picture: <input type="file" name="image" value="Upload"> <br>
+    <input type="submit" value="Change">
+</form>
+<br>
+<form action="/admin/modifyMember" method="post">
+    <input type="hidden" name="memberId" th:value="${teamMember.id}">
+    Name: <input type="text" name="name" th:value="${teamMember.name}"> <br>
+    Surname: <input type="text" name="surname" th:value="${teamMember.surname}"> <br>
+    Bio: <input type="text" name="bio" th:value="${teamMember.bio}"> <br>
+    Type: <select name="memberType" th:selected="${teamMember.memberType.name()}">
+    <option value="CHAIRMAN">Chairman</option>
+    <option value="SEO">Seo</option>
+    <option value="COORDINATOR">Coordinator</option>
+    <option value="DIRECTOR">Director</option>
+    <option value="CHIEF">Chief</option>
+</select> <br>
+    <input type="submit" value="Edit">
+</form>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.example.subaseshopproject.repository;
 
+import com.example.subaseshopproject.model.Brand;
 import com.example.subaseshopproject.model.Product;
 import com.example.subaseshopproject.model.ProductListType;
 import com.example.subaseshopproject.model.ProductType;
@@ -20,6 +21,8 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("SELECT u FROM Product u WHERE u.name NOT LIKE:name AND u.brand.id=:brandId ")
     List<Product> findAllByBrandNotLikeSingleProductName(@Param("name") String name,
                                                          @Param("brandId") long brandId);
+
+    List<Product> findAllByBrand(Brand brand);
 
     List<Product> findAllByNameIgnoreCaseContaining(String keyword);
 

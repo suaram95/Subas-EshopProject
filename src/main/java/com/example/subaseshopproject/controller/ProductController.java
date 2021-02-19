@@ -1,8 +1,10 @@
 package com.example.subaseshopproject.controller;
 
+import com.example.subaseshopproject.model.Brand;
 import com.example.subaseshopproject.model.Color;
 import com.example.subaseshopproject.model.OperatingSystem;
 import com.example.subaseshopproject.model.Product;
+import com.example.subaseshopproject.service.BrandService;
 import com.example.subaseshopproject.service.CategoryService;
 import com.example.subaseshopproject.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final BrandService brandService;
 
     @GetMapping("/shop")
     public String shopPage(ModelMap map) {
@@ -48,6 +51,21 @@ public class ProductController {
         map.addAttribute("opSystems", OperatingSystem.values());
         map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
         return "single-product";
+    }
+
+    @GetMapping("/productsByBrand")
+    public String productsByBrand(@RequestParam("id") long brandId,ModelMap map){
+        Optional<Brand> brandById = brandService.findById(brandId);
+        if (brandById.isPresent()){
+            Brand brand = brandById.get();
+            map.addAttribute("productsByBrand",productService.findAllByBrand(brand));
+            map.addAttribute("categories",categoryService.findAll());
+            map.addAttribute("colors", Color.values());
+            map.addAttribute("opSystems", OperatingSystem.values());
+            map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
+            return "product-brand";
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/search")

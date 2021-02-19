@@ -46,6 +46,10 @@ public class ProductService {
         return productRepository.findAllByBrandNotLikeSingleProductName(name, id);
     }
 
+    public List<Product> findAllByBrand(Brand brand){
+        return productRepository.findAllByBrand(brand);
+    }
+
     public List<Product> findAllByNameIgnoreCaseContaining(String name){
         return productRepository.findAllByNameIgnoreCaseContaining(name);
     }

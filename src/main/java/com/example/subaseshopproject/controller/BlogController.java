@@ -3,7 +3,6 @@ package com.example.subaseshopproject.controller;
 import com.example.subaseshopproject.model.Blog;
 import com.example.subaseshopproject.model.Color;
 import com.example.subaseshopproject.model.OperatingSystem;
-import com.example.subaseshopproject.model.Product;
 import com.example.subaseshopproject.service.BlogCategoryService;
 import com.example.subaseshopproject.service.BlogService;
 import com.example.subaseshopproject.service.CommentService;
@@ -28,7 +27,7 @@ public class BlogController {
     private final ProductService productService;
 
     @GetMapping("/blog")
-    public String blogPage(ModelMap map){
+    public String blogPage(ModelMap map) {
         map.addAttribute("blogList", blogService.findAll());
         map.addAttribute("blogCategories", blogCategoryService.findAll());
         map.addAttribute("latestThree", productService.findTop3ByOrderByIdDesc());
@@ -51,10 +50,14 @@ public class BlogController {
         return "single-blog";
     }
 
-    @GetMapping("/blog/search")
-    public String search(@RequestParam("keyword") String keyword, ModelMap map){
+    @GetMapping("/searchBlog")
+    public String searchBlog(@RequestParam("keyword") String keyword, ModelMap map) {
         List<Blog> searchedBlog = blogService.findAllByNameIgnoreCaseContaining(keyword);
-        Blog blog = searchedBlog.get(0);
-        return "redirect:/singleBlog?id="+blog.getId();
+        map.addAttribute("searchedBlog", searchedBlog);
+        map.addAttribute("blogCategories", blogCategoryService.findAll());
+        map.addAttribute("colors", Color.values());
+        map.addAttribute("opSystems", OperatingSystem.values());
+        map.addAttribute("latestThree", productService.findTop3ByOrderByIdDesc());
+        return "search-blog";
     }
 }

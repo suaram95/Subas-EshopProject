@@ -67,10 +67,6 @@
                                         <a class="active" href="#grid-view" data-toggle="tab"><i
                                                 class="zmdi zmdi-view-module"></i></a>
                                     </li>
-                                    <li>
-                                        <a href="#list-view" data-toggle="tab"><i
-                                                class="zmdi zmdi-view-list-alt"></i></a>
-                                    </li>
                                 </ul>
                                 <!-- short-by -->
                                 <div class="short-by f-left text-center">
@@ -94,7 +90,7 @@
                                 <div id="grid-view" class="tab-pane active show" role="tabpanel">
                                     <div class="row">
                                         <!-- product-item start -->
-                                        <div class="col-lg-4 col-md-6" th:each="product:${products}">
+                                        <div class="col-lg-4 col-md-6" th:each="product:${searchedProduct}">
                                             <div class="product-item">
                                                 <div class="product-img">
                                                     <a th:href="@{/singleProduct(id=${product.id})}">
@@ -138,56 +134,6 @@
                                     </div>
                                 </div>
                                 <!-- list-view -->
-                                <div id="list-view" class="tab-pane" role="tabpanel">
-                                    <div class="row">
-                                        <!-- product-item start -->
-                                        <div class="col-lg-12" th:each="product:${products}">
-                                            <div class="shop-list product-item">
-                                                <div class="product-img">
-                                                    <a th:href="@{/singleProduct(id=${product.id})}">
-                                                        <img th:src="@{/image(name=${product.picUrl})}" alt="">
-                                                    </a>
-                                                </div>
-                                                <div class="product-info">
-                                                    <div class="clearfix">
-                                                        <h6 class="product-title f-left">
-                                                            <a th:href="@{/singleProduct(id=${product.id})}" th:text="${product.name}"></a>
-                                                        </h6>
-                                                        <div class="pro-rating f-right">
-                                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                        </div>
-                                                    </div>
-                                                    <h6 class="brand-name mb-30" th:text="${product.brand.name}"></h6>
-                                                    <h3 class="pro-price" th:text="'$'+${product.price}"></h3>
-                                                    <p th:text="${product.description}"></p>
-                                                    <ul class="action-button">
-                                                        <li>
-                                                            <a href="#" title="Wishlist"><i
-                                                                    class="zmdi zmdi-favorite"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" data-toggle="modal" data-target="#productModal"
-                                                               title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Compare"><i
-                                                                    class="zmdi zmdi-refresh"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Add to cart"><i
-                                                                    class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- product-item end -->
-                                    </div>
-                                </div>
                             </div>
                             <!-- Tab Content end -->
                             <!-- shop-pagination start -->
@@ -207,7 +153,7 @@
                         <!-- widget-search -->
                         <aside class="widget-search mb-30">
                             <form action="/search" method="get">
-                                <input type="text" name="keyword" placeholder="Search here for product...">
+                                <input type="text" name="keyword" placeholder="Search here for product ...">
                                 <button type="submit"><i class="zmdi zmdi-search"></i></button>
                             </form>
                         </aside>

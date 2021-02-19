@@ -14,10 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private  UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -34,11 +34,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/user/activate","/user/account","/user/update").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/admin", "/admin/addBrand","/admin/addProduct",
-                                        "/admin/addBlog").hasAuthority("ADMIN")
+                .antMatchers("/user/activate", "/user/account", "/user/update").hasAnyAuthority("USER", "ADMIN")
+
+                .antMatchers("/admin", "/admin/addBrand", "/admin/addProduct",
+                        "/admin/addBlog", "/admin/addTeamMember", "/admin/editMember",
+                        "/admin/modifyMember", "/admin/changePicture", "/admin/removeMember").hasAuthority("ADMIN")
+
                 .antMatchers("/singleBlog").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/comment/add").hasAuthority("USER")
+                .antMatchers("/comment/add").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/comment/delete").hasAuthority("ADMIN");
     }
 

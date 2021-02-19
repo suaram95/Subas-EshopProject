@@ -1,7 +1,6 @@
 package com.example.subaseshopproject.service;
 
 import com.example.subaseshopproject.model.Blog;
-import com.example.subaseshopproject.model.Product;
 import com.example.subaseshopproject.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

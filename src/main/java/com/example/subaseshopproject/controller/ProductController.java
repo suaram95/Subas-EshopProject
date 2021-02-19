@@ -53,8 +53,12 @@ public class ProductController {
     @GetMapping("/search")
     public String search(@RequestParam("keyword") String keyword, ModelMap map){
         List<Product> searchedProduct = productService.findAllByNameIgnoreCaseContaining(keyword);
-        Product product = searchedProduct.get(0);
-        return "redirect:/singleProduct?id="+product.getId();
+        map.addAttribute("searchedProduct", searchedProduct);
+        map.addAttribute("categories", categoryService.findAll());
+        map.addAttribute("colors", Color.values());
+        map.addAttribute("opSystems", OperatingSystem.values());
+        map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
+        return "search";
     }
 
 

@@ -64,7 +64,7 @@
                             </div>
                             <div class="row">
                                 <!-- blog-item start -->
-                                <div class="col-md-6" th:each="blog:${blogList}">
+                                <div class="col-md-6" th:each="blog:${searchedBlog}">
                                     <div class="blog-item">
                                         <img th:src="@{/image(name=${blog.picUrl})}" alt="">
                                         <div class="blog-desc">

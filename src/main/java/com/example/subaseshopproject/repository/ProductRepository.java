@@ -1,9 +1,6 @@
 package com.example.subaseshopproject.repository;
 
-import com.example.subaseshopproject.model.Brand;
-import com.example.subaseshopproject.model.Product;
-import com.example.subaseshopproject.model.ProductListType;
-import com.example.subaseshopproject.model.ProductType;
+import com.example.subaseshopproject.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +20,12 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
                                                          @Param("brandId") long brandId);
 
     List<Product> findAllByBrand(Brand brand);
+
+    List<Product> findAllByColor(Color color);
+
+    List<Product> findAllByOperatingSystem(OperatingSystem operatingSystem);
+
+    List<Product> findAllByCategory(Category category);
 
     List<Product> findAllByNameIgnoreCaseContaining(String keyword);
 

@@ -1,10 +1,7 @@
 package com.example.subaseshopproject.service;
 
 
-import com.example.subaseshopproject.model.Brand;
-import com.example.subaseshopproject.model.Product;
-import com.example.subaseshopproject.model.ProductListType;
-import com.example.subaseshopproject.model.ProductType;
+import com.example.subaseshopproject.model.*;
 import com.example.subaseshopproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,6 +45,18 @@ public class ProductService {
 
     public List<Product> findAllByBrand(Brand brand){
         return productRepository.findAllByBrand(brand);
+    }
+
+    public List<Product> findAllByCategory(Category category){
+        return productRepository.findAllByCategory(category);
+    }
+
+    public List<Product> findAllByColor(Color color){
+        return productRepository.findAllByColor(color);
+    }
+
+    public List<Product> findAllByOperatingSystem(OperatingSystem operatingSystem){
+        return productRepository.findAllByOperatingSystem(operatingSystem);
     }
 
     public List<Product> findAllByNameIgnoreCaseContaining(String name){

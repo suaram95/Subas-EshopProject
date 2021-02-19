@@ -33,11 +33,10 @@
         Price: <input type="number" name="price"> <br>
         Color: <select name="color">
         <option value="BLACK">Black</option>
-        <option value="LIGHT_SALMON">Light Salmon</option>
-        <option value="DARK_SALMON">Dark Salmon</option>
-        <option value="TOMATO">Tomato</option>
         <option value="DEEP_SKY_BLUE">Deep Sky Blue</option>
-        <option value="ATLANTIS">Atlantis</option>
+        <option value="LIGHT_SKY_BLUE">Light Sky Blue</option>
+        <option value="GREY">Grey</option>
+        <option value="WHITE">White</option>
     </select> <br>
         Category: <select name="category">
         <option th:each="category:${productCategories}" th:value="${category.id}"

@@ -1,14 +1,12 @@
 package com.example.subaseshopproject.controller;
 
-import com.example.subaseshopproject.model.Brand;
-import com.example.subaseshopproject.model.Color;
-import com.example.subaseshopproject.model.OperatingSystem;
-import com.example.subaseshopproject.model.Product;
+import com.example.subaseshopproject.model.*;
 import com.example.subaseshopproject.service.BrandService;
 import com.example.subaseshopproject.service.CategoryService;
 import com.example.subaseshopproject.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +56,35 @@ public class ProductController {
         }
         return "redirect:/";
     }
+
+    @GetMapping("/productsByCategory")
+    public String productsByCategory(@RequestParam("id") long categoryId, ModelMap map){
+        Optional<Category> categoryById = categoryService.findById(categoryId);
+        if (categoryById.isPresent()){
+            Category category = categoryById.get();
+            map.addAttribute("productsByCategory", productService.findAllByCategory(category));
+            getAttributes(map);
+            return "product-category";
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/productsByColor")
+    public String productsByColor(@RequestParam("color") Color color, ModelMap map){
+        map.addAttribute("productsByColor",
+                productService.findAllByColor(color));
+        getAttributes(map);
+        return "product-color";
+    }
+
+    @GetMapping("/productsByOpSystem")
+    public String productsByOpSystem(@RequestParam("opSystem") OperatingSystem operatingSystem, ModelMap map){
+        map.addAttribute("productsByOpSystem",
+                productService.findAllByOperatingSystem(operatingSystem));
+        getAttributes(map);
+        return "product-opSystem";
+    }
+
 
     @GetMapping("/search")
     public String search(@RequestParam("keyword") String keyword, ModelMap map) {

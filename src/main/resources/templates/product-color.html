@@ -55,6 +55,7 @@
 
         <!-- SHOP SECTION START -->
         <div class="shop-section mb-80">
+            <h3 th:if="${productsByColor==null}">Nothing has found!</h3>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9 order-lg-2 order-1">
@@ -94,7 +95,7 @@
                                 <div id="grid-view" class="tab-pane active show" role="tabpanel">
                                     <div class="row">
                                         <!-- product-item start -->
-                                        <div class="col-lg-4 col-md-6" th:each="product:${productsByBrand}">
+                                        <div class="col-lg-4 col-md-6" th:each="product:${productsByColor}">
                                             <div class="product-item">
                                                 <div class="product-img">
                                                     <a th:href="@{/singleProduct(id=${product.id})}">
@@ -141,7 +142,7 @@
                                 <div id="list-view" class="tab-pane" role="tabpanel">
                                     <div class="row">
                                         <!-- product-item start -->
-                                        <div class="col-lg-12" th:each="product:${productsByBrand}">
+                                        <div class="col-lg-12" th:each="product:${productsByColor}">
                                             <div class="shop-list product-item">
                                                 <div class="product-img">
                                                     <a th:href="@{/singleProduct(id=${product.id})}">
@@ -216,8 +217,7 @@
                             <h6 class="widget-title border-left mb-20">Categories</h6>
                             <div id="cat-treeview" class="product-cat">
                                 <ul th:each="category:${categories}">
-                                    <li><a th:href="@{/productsByCategory(id=${category.id})}"
-                                           th:text="${category.name}"></a></li>
+                                    <li><a href="#" th:text="${category.name}"></a></li>
                                 </ul>
                             </div>
                         </aside>

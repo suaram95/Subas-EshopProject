@@ -28,7 +28,7 @@ public class Blog {
     @Column
     private String picUrl;
     @ManyToOne
-    private Category category;
+    private BlogCategory blogCategory;
     @ManyToOne(fetch = FetchType.LAZY)
     private Comment comment;
 }

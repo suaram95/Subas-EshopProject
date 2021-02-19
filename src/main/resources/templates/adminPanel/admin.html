@@ -54,9 +54,9 @@
     <form action="/admin/addBlog" method="post" enctype="multipart/form-data">
         Name: <input type="text" name="name"> <br>
         Text: <textarea name="text"></textarea> <br>
-        Category: <select name="category">
-        <option th:each="category:${blogCategories}" th:value="${category.id}"
-                th:text="${category.name}"></option>
+        Category: <select name="blogCategory">
+        <option th:each="blogCategory:${blogCategories}" th:value="${blogCategory.id}"
+                th:text="${blogCategory.name}"></option>
     </select> <br>
         Picture: <input type="file" name="blogImage" value="Upload"> <br>
         <input type="submit" value="Add">

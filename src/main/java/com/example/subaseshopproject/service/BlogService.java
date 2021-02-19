@@ -1,6 +1,7 @@
 package com.example.subaseshopproject.service;
 
 import com.example.subaseshopproject.model.Blog;
+import com.example.subaseshopproject.model.BlogCategory;
 import com.example.subaseshopproject.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,10 @@ public class BlogService {
 
     public List<Blog> findAll() {
         return blogRepository.findAll();
+    }
+
+    public List<Blog> findAllByBlogCategory(BlogCategory category){
+        return blogRepository.findAllByBlogCategory(category);
     }
 
     public List<Blog> findAllByNameIgnoreCaseContaining(String name){

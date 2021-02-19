@@ -95,7 +95,7 @@ public class AdminController {
                 .text(blogRequestDto.getText())
                 .createdDate(blogRequestDto.getCreatedDate())
                 .picUrl(blogPic)
-                .category(blogRequestDto.getCategory())
+                .blogCategory(blogRequestDto.getBlogCategory())
                 .build();
         blogService.save(blog);
         return "redirect:/admin?msg=Blog was added!";

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,5 +16,9 @@ public class BlogCategoryService {
 
     public List<BlogCategory> findAll(){
         return blogCategoryRepository.findAll();
+    }
+
+    public Optional<BlogCategory> findById(long categoryId) {
+        return blogCategoryRepository.findById(categoryId);
     }
 }

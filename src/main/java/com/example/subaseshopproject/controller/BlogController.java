@@ -1,6 +1,7 @@
 package com.example.subaseshopproject.controller;
 
 import com.example.subaseshopproject.model.Blog;
+import com.example.subaseshopproject.model.BlogCategory;
 import com.example.subaseshopproject.model.Color;
 import com.example.subaseshopproject.model.OperatingSystem;
 import com.example.subaseshopproject.service.BlogCategoryService;
@@ -47,6 +48,17 @@ public class BlogController {
         return "single-blog";
     }
 
+    @GetMapping("/blogsByCategory")
+    public String blogsByCategory(@RequestParam("id") long categoryId, ModelMap map) {
+        Optional<BlogCategory> categoryById = blogCategoryService.findById(categoryId);
+        if (categoryById.isPresent()) {
+            BlogCategory blogCategory = categoryById.get();
+            map.addAttribute("blogsByCategory", blogService.findAllByBlogCategory(blogCategory));
+            return "blog-category";
+        }
+        return "redirect:/";
+    }
+
     @GetMapping("/searchBlog")
     public String searchBlog(@RequestParam("keyword") String keyword, ModelMap map) {
         List<Blog> searchedBlog = blogService.findAllByNameIgnoreCaseContaining(keyword);
@@ -56,7 +68,7 @@ public class BlogController {
     }
 
     //these attributes are sending in many controllers, for what is written this method
-    private void getAttributes(ModelMap map){
+    private void getAttributes(ModelMap map) {
         map.addAttribute("blogCategories", blogCategoryService.findAll());
         map.addAttribute("colors", Color.values());
         map.addAttribute("opSystems", OperatingSystem.values());

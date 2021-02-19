@@ -85,6 +85,14 @@ public class ProductController {
         return "product-opSystem";
     }
 
+    @GetMapping("/productsByListType")
+    public String productsByListType(@RequestParam("listType") ProductListType listType, ModelMap map){
+        map.addAttribute("productsByListType",
+                productService.findAllByProductListType(listType));
+        getAttributes(map);
+        return "product-listType";
+    }
+
 
     @GetMapping("/search")
     public String search(@RequestParam("keyword") String keyword, ModelMap map) {

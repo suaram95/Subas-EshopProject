@@ -29,10 +29,7 @@ public class BlogController {
     @GetMapping("/blog")
     public String blogPage(ModelMap map) {
         map.addAttribute("blogList", blogService.findAll());
-        map.addAttribute("blogCategories", blogCategoryService.findAll());
-        map.addAttribute("latestThree", productService.findTop3ByOrderByIdDesc());
-        map.addAttribute("colors", Color.values());
-        map.addAttribute("opSystems", OperatingSystem.values());
+        getAttributes(map);
         return "blog-left-sidebar";
     }
 
@@ -54,10 +51,15 @@ public class BlogController {
     public String searchBlog(@RequestParam("keyword") String keyword, ModelMap map) {
         List<Blog> searchedBlog = blogService.findAllByNameIgnoreCaseContaining(keyword);
         map.addAttribute("searchedBlog", searchedBlog);
+        getAttributes(map);
+        return "search-blog";
+    }
+
+    //these attributes are sending in many controllers, for what is written this method
+    private void getAttributes(ModelMap map){
         map.addAttribute("blogCategories", blogCategoryService.findAll());
         map.addAttribute("colors", Color.values());
         map.addAttribute("opSystems", OperatingSystem.values());
         map.addAttribute("latestThree", productService.findTop3ByOrderByIdDesc());
-        return "search-blog";
     }
 }

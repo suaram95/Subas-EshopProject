@@ -27,11 +27,7 @@ public class ProductController {
     @GetMapping("/shop")
     public String shopPage(ModelMap map) {
         map.addAttribute("products", productService.findAll());
-        map.addAttribute("categories", categoryService.findAll());
-        map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
-
-        map.addAttribute("colors", Color.values());
-        map.addAttribute("opSystems", OperatingSystem.values());
+        getAttributes(map);
         return "shop-left-sidebar";
     }
 
@@ -47,36 +43,36 @@ public class ProductController {
         map.addAttribute("productByBrandNotLikeSingleProdName",
                 productService.findAllByBrandNotLikeSingleProductName(singleProduct.getName(),
                         singleProduct.getBrand().getId()));
-        map.addAttribute("categories", categoryService.findAll());
-        map.addAttribute("opSystems", OperatingSystem.values());
-        map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
+        getAttributes(map);
         return "single-product";
     }
 
     @GetMapping("/productsByBrand")
-    public String productsByBrand(@RequestParam("id") long brandId,ModelMap map){
+    public String productsByBrand(@RequestParam("id") long brandId, ModelMap map) {
         Optional<Brand> brandById = brandService.findById(brandId);
-        if (brandById.isPresent()){
+        if (brandById.isPresent()) {
             Brand brand = brandById.get();
-            map.addAttribute("productsByBrand",productService.findAllByBrand(brand));
-            map.addAttribute("categories",categoryService.findAll());
-            map.addAttribute("colors", Color.values());
-            map.addAttribute("opSystems", OperatingSystem.values());
-            map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
+            map.addAttribute("productsByBrand", productService.findAllByBrand(brand));
+            getAttributes(map);
             return "product-brand";
         }
         return "redirect:/";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("keyword") String keyword, ModelMap map){
+    public String search(@RequestParam("keyword") String keyword, ModelMap map) {
         List<Product> searchedProduct = productService.findAllByNameIgnoreCaseContaining(keyword);
         map.addAttribute("searchedProduct", searchedProduct);
+        getAttributes(map);
+        return "search";
+    }
+
+    //these attributes are sending in many controllers, for what is written this method
+    private void getAttributes(ModelMap map) {
         map.addAttribute("categories", categoryService.findAll());
         map.addAttribute("colors", Color.values());
         map.addAttribute("opSystems", OperatingSystem.values());
         map.addAttribute("lastThreeList", productService.findTop3ByOrderByIdDesc());
-        return "search";
     }
 
 

@@ -45,6 +45,7 @@ public class BlogController {
         map.addAttribute("singleBlog", blog);
         map.addAttribute("comments", commentService.findAll());
         map.addAttribute("createdDate", DateUtil.getStringFromDate(blog.getCreatedDate()));
+        getAttributes(map);
         return "single-blog";
     }
 
@@ -54,6 +55,7 @@ public class BlogController {
         if (categoryById.isPresent()) {
             BlogCategory blogCategory = categoryById.get();
             map.addAttribute("blogsByCategory", blogService.findAllByBlogCategory(blogCategory));
+            getAttributes(map);
             return "blog-category";
         }
         return "redirect:/";
